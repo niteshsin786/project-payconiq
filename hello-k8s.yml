@@ -38,4 +38,26 @@ spec:
             allowPrivilegeEscalation: false
           ports:
             - containerPort: 8080
+---
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: hello-k8s-firstdemo
+  namespace: default
+spec:
+  scaleTargetRef:
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    name: hello-k8s-firstdemo
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      targetAverageUtilization: 80
+  - type: Resource
+    resource:
+      name: memory
+      targetAverageValue: 100Mi
 
